@@ -82,7 +82,7 @@
             $(document).ready(function () {
                 CargarClientes();
             })
-
+            var cos = 0;
             function CrearDetalle(FacturaId) {
 
                 $('#tbBody tr').each(function () {
@@ -196,7 +196,6 @@
                 var element = $('#ComboBoxCitas').find('option:selected');
 
                 var ClienteId = element.attr('id');
-                alert(ClienteId);
                 CargarServicios(ClienteId);
             }
 
@@ -236,9 +235,9 @@
                     function (lista) {
                         $.each(lista, function (index, lista) {
                             var Id = lista.citaId;
-                            var ser = lista.servicio;
+                            var servicio = lista.servicio;
                             var cli = lista.clienteId;
-                            var option = "<option id='" + Id + "'value='" + cli + "'>" + cli + "</option>";
+                            var option = "<option id='" + cli + "'value='" + servicio + "'>" + Id + "</option>";
                             $('#ComboBoxCitas').append(option);
                         });
                     });
@@ -250,15 +249,15 @@
                     },
                     function (lista) {
                         $.each(lista, function (index, lista) {
-                            var Id = lista.ServicioId;
+                            var Id = lista.clienteId;
                             var ser = lista.servicio;
-                            var cli = lista.clienteId;
-                            var option = "<option id='" + Id + "'value='" + cli + "'>" + ser + "</option>";
+                            var cli = lista.costo;
+                            var option = "<option id='" + Id + "'value='" + cos + "'>" + ser + "</option>";
 
                             $('#ComboBox').append(option);
                         });
                     });
-            }               
+            }   
         </script>
     }
 }

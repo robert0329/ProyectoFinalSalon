@@ -14,5 +14,6 @@ namespace BeautyCenterCore.Models
         public string Nombres { get; set; }
         public int ClienteId { get; set; }
         public string Servicio { get; set; }
+        public double Costo { get; set; }
     }
 }
