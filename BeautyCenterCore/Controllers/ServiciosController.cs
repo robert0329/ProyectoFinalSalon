@@ -15,13 +15,19 @@ namespace BeautyCenterCore.Controllers
 
         public ServiciosController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
         }
-
-        // GET: Servicios
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public JsonResult Lista(int id)
         {
-            return View(await _context.Servicios.ToListAsync());
+            var listado = BLL.ServiciosBLL.ListarServicios();
+
+            return Json(listado);
+        }
+        // GET: Servicios
+        public IActionResult Index()
+        {
+            return View(BLL.ServiciosBLL.GetLista());
         }
 
         // GET: Servicios/Details/5

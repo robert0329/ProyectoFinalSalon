@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using BeautyCenterCore.BLL;
 
 namespace BeautyCenterCore.Controllers
 {
@@ -15,7 +16,7 @@ namespace BeautyCenterCore.Controllers
 
         public FacturaDetallesController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: FacturaDetalles
@@ -23,7 +24,12 @@ namespace BeautyCenterCore.Controllers
         {
             return View(await _context.FacturaDetalles.ToListAsync());
         }
-
+        [HttpPost]
+        public JsonResult Save([FromBody]List<FacturaDetalles> detalles)
+        {
+            bool resultado = BLL.FacturaDetallesBLL.Insertar(detalles);
+            return Json(resultado);
+        }
         // GET: FacturaDetalles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,7 +59,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FacturaId,ServicioId,Costo,Descuento,SubTotal")] FacturaDetalles facturaDetalles)
+        public async Task<IActionResult> Create([Bind("Id,ServicioId,ClienteId")] FacturaDetalles facturaDetalles)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +91,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FacturaId,ServicioId,Costo,Descuento,SubTotal")] FacturaDetalles facturaDetalles)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ServicioId,ClienteId")] FacturaDetalles facturaDetalles)
         {
             if (id != facturaDetalles.Id)
             {

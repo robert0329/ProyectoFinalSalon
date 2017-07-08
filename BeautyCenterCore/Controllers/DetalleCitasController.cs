@@ -15,9 +15,15 @@ namespace BeautyCenterCore.Controllers
 
         public DetalleCitasController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
         }
+        [HttpPost]
+        public JsonResult Save([FromBody]List<DetalleCitas> detalles)
+        {
+            bool resultado = BLL.DetalleCitasBLL.Insertar(detalles);
 
+            return Json(resultado);
+        }
         // GET: DetalleCitas
         public async Task<IActionResult> Index()
         {
@@ -53,7 +59,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CitaId,Nombres,ClienteId,Servicio")] DetalleCitas detalleCitas)
+        public async Task<IActionResult> Create([Bind("Id,CitaId,ClienteId,Servicio")] DetalleCitas detalleCitas)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +91,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CitaId,Nombres,ClienteId,Servicio")] DetalleCitas detalleCitas)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CitaId,ClienteId,Servicio")] DetalleCitas detalleCitas)
         {
             if (id != detalleCitas.Id)
             {

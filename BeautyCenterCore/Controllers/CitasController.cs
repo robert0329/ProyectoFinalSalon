@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using BeautyCenterCore.BLL;
 
 namespace BeautyCenterCore.Controllers
 {
@@ -13,11 +14,42 @@ namespace BeautyCenterCore.Controllers
     {
         private readonly BeautyCoreDb _context;
 
+        [HttpGet]
+        public JsonResult Lista(int id)
+        {
+            var listado = BLL.DetalleCitasBLL.GetListaId(id);
+
+            return Json(listado);
+        }
+        [HttpGet]
+        public JsonResult Listado(int id)
+        {
+            var listado = BLL.CitasBLL.GetListaId(id);
+
+            return Json(listado);
+        }
         public CitasController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
         }
-
+        [HttpPost]
+        public JsonResult Save(Citas nueva)
+        {
+            int id = 0;
+            if (ModelState.IsValid)
+            {
+                nueva.Fecha = DateTime.Now;
+                if (CitasBLL.Insertar(nueva))
+                {
+                    id = nueva.CitaId;
+                }
+            }
+            else
+            {
+                id = +1;
+            }
+            return Json(id);
+        }
         // GET: Citas
         public async Task<IActionResult> Index()
         {
@@ -53,7 +85,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CitaId,ClienteId,Nombres,Servicio,CantPersonas,Fecha")] Citas citas)
+        public async Task<IActionResult> Create([Bind("CitaId,ClienteId,ServicioId,CantPersonas,Fecha")] Citas citas)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +117,7 @@ namespace BeautyCenterCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CitaId,ClienteId,Nombres,Servicio,CantPersonas,Fecha")] Citas citas)
+        public async Task<IActionResult> Edit(int id, [Bind("CitaId,ClienteId,ServicioId,CantPersonas,Fecha")] Citas citas)
         {
             if (id != citas.CitaId)
             {

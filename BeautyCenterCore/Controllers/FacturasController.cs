@@ -6,22 +6,43 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using BeautyCenterCore.BLL;
 
 namespace BeautyCenterCore.Controllers
 {
     public class FacturasController : Controller
     {
         private readonly BeautyCoreDb _context;
+        BeautyCoreDb db = new BeautyCoreDb();
 
         public FacturasController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
+        }
+
+        [HttpPost]
+        public JsonResult Save(Facturas nueva)
+        {
+            int id = 0;
+            if (ModelState.IsValid)
+            {
+                nueva.Fecha = DateTime.Now;
+                if (FacturasBLL.Guardar(nueva))
+                {
+                    id = nueva.FacturaId;
+                }
+            }
+            else
+            {
+                id = +1;
+            }
+            return Json(id);
         }
 
         // GET: Facturas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Facturas.ToListAsync());
+            return View(BLL.FacturasBLL.GetLista());
         }
 
         // GET: Facturas/Details/5

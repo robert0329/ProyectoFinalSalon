@@ -15,9 +15,15 @@ namespace BeautyCenterCore.Controllers
 
         public ClientesController(BeautyCoreDb context)
         {
-            _context = context;    
+            _context = context;
         }
+        [HttpGet]
+        public JsonResult Lista(int? id)
+        {
+            var listado = BLL.ClientesBLL.ListarClientes();
 
+            return Json(listado);
+        }
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
