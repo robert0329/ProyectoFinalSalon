@@ -60,6 +60,7 @@ namespace BeautyCenterCore
                     name: "default",
                     template: "{controller=Facturas}/{action=Index}/{id?}");
             });
+            //
         }
     }
 }

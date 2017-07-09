@@ -10,7 +10,11 @@ namespace BeautyCenterCore.Models
     {
         [Key]
         public int ServicioId { get; set; }
+
+        [Required(ErrorMessage = "Nombre del Servicio")]
         public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "Este campo es Obligatorio y de suma importancia")]
         public decimal Costo { get; set; }
     }
 }

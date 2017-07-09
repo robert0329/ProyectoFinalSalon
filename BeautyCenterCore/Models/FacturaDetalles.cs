@@ -13,7 +13,10 @@ namespace BeautyCenterCore.Models
         public int FacturaId { get; set; }
         public string ServicioId { get; set; }
         public double Costo { get; set; }
+
+        [Required(ErrorMessage = "El Descuento es Opcional")]
         public double Descuento { get; set; }
+
         public decimal SubTotal { get; set; }
     }
 }
