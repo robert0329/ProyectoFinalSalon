@@ -31,5 +31,7 @@ namespace BeautyCenterCore.Models
         public DbSet<BeautyCenterCore.Models.Facturas> Facturas { get; set; }
 
         public DbSet<BeautyCenterCore.Models.Servicios> Servicios { get; set; }
+
+        public DbSet<BeautyCenterCore.Models.Empleados> Empleados { get; set; }
     }
 }
