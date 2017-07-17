@@ -22,20 +22,14 @@
         <div class="form-group col-lg-12">
             <div class="input-group">
                 <label>Cliente</label>
-                <select class="form-control selected"  id="ComboBoxCliente"placeholder="Cliente"onchange="ArmarCita()"></select>
-            </div>
-        </div>
-        <div class="form-group col-lg-12">
-            <div class="input-group">
-                <label>Citas</label>
-                <select class="form-control selected" value =" "id="ComboBoxCitas"onchange="ArmarServicios()"></select>
+                <select class="form-control selected"  id="ComboBoxCliente"placeholder="Cliente"onchange=""></select>
             </div>
         </div>
         <div class="form-group" size="100">
             <label>Servicios</label>
             <div class="input-group">
                 
-                <select class="form-control selected" id="ComboBox" onchange="Seleccionar()"placeholder="Servicios"></select>
+                <select class="form-control selected" id="ComboBox" onchange="CargarServicios()"placeholder="Servicios"></select>
 
                 <input class="form-control input-group-sm col-2" type="text" id="tbCosto" readonly placeholder="Costo" />
 
@@ -186,18 +180,6 @@
 
                 $('#tbCosto').val(precio);
             }
-            function ArmarCita() {
-                var element = $('#ComboBoxCliente').find('option:selected');
-                
-                var ClienteId = element.attr('id');
-                LlenarCitas(ClienteId);
-            }
-            function ArmarServicios() {
-                var element = $('#ComboBoxCitas').find('option:selected');
-
-                var ClienteId = element.attr('id');
-                CargarServicios(ClienteId);
-            }
 
             function Limpiar() {
                 $('#tbCosto').val("");
@@ -227,31 +209,16 @@
                         });
                     });
             }
-            function LlenarCitas(Id) {
-                $.getJSON("/Citas/Listado",
+            function CargarServicios() {
+                $.getJSON("/Servicios/Lista",
                     {
                         id: Id
                     },
                     function (lista) {
                         $.each(lista, function (index, lista) {
-                            var Id = lista.citaId;
-                            var servicio = lista.servicio;
-                            var cli = lista.clienteId;
-                            var option = "<option id='" + cli + "'value='" + servicio + "'>" + Id + "</option>";
-                            $('#ComboBoxCitas').append(option);
-                        });
-                    });
-            }
-            function CargarServicios(Id) {
-                $.getJSON("/Citas/Lista",
-                    {
-                        id: Id
-                    },
-                    function (lista) {
-                        $.each(lista, function (index, lista) {
-                            var Id = lista.clienteId;
-                            var ser = lista.servicio;
-                            var cli = lista.costo;
+                            var Id = lista.ServicioId;
+                            var ser = lista.costo;
+                            var cli = lista.nombres;
                             var option = "<option id='" + Id + "'value='" + cos + "'>" + ser + "</option>";
 
                             $('#ComboBox').append(option);
