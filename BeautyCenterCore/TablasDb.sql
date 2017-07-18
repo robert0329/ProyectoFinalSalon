@@ -1,63 +1,82 @@
-CREATE TABLE [dbo].[Citas] (
-    [CitaId]       INT           IDENTITY (1, 1) NOT NULL,
-    [Nombres]      VARCHAR (50)  NULL,
-    [ClienteId]    INT           NULL,
-    [Servicio]     VARCHAR (100) NULL,
-    [CantPersonas] INT           NULL,
-    [Fecha]        DATETIME      NULL,
-    PRIMARY KEY CLUSTERED ([CitaId] ASC)
+create table Citas (
+CitaId int identity(1, 1)not null primary key,
+Nombres   varchar(50),
+ClienteId  int,
+Servicio  varchar (100) ,
+CantPersonas int ,
+Fecha datetime
 );
 
-CREATE TABLE [dbo].[Ciudades] (
-    [CiudadId]     INT           IDENTITY (1, 1) NOT NULL,
-    [NombreCiudad] VARCHAR (100) NULL,
-    PRIMARY KEY CLUSTERED ([CiudadId] ASC)
+create table Ciudades (
+CiudadId   int identity(1, 1)not null primary key,
+NombreCiudad varchar(100),
 );
 
-CREATE TABLE [dbo].[Clientes] (
-    [ClienteId] INT           IDENTITY (1, 1) NOT NULL,
-    [Nombres]   VARCHAR (150) NULL,
-    [Provincia] VARCHAR (100) NULL,
-    [Ciudad]    VARCHAR (100) NULL,
-    [Direccion] VARCHAR (300) NULL,
-    [Cedula]    VARCHAR (25)  NULL,
-    [Telefono]  VARCHAR (15)  NULL,
-    [FechaNac]  DATETIME      NULL,
-    PRIMARY KEY CLUSTERED ([ClienteId] ASC)
+create table Provincias (
+ProvinviaId int identity(1,1)not null primary key,
+CiudadId int,
+NombreProv varchar(100),
 );
 
-CREATE TABLE [dbo].[DetalleCitas] (
-    [Id]        INT          IDENTITY (1, 1) NOT NULL,
-    [CitaId]    INT          NULL,
-    [Servicio]  VARCHAR (25) NULL,
-    [ClienteId] INT          NULL,
-    [Nombres]   VARCHAR (50) NULL,
-    [Costo]     FLOAT (53)   NULL
+create table Clientes (
+ClienteId int identity(1, 1)not null primary key,
+Nombres   varchar(150),
+Provincia varchar(100),
+Ciudad    varchar(100),
+Direccion varchar(300),
+Cedula  varchar(25) ,
+Telefono varchar(15) ,
+FechaNac datetime
 );
 
-CREATE TABLE [dbo].[FacturaDetalles] (
-    [Id]         INT          IDENTITY (1, 1) NOT NULL,
-    [FacturaId]  INT          NULL,
-    [ServicioId] VARCHAR (25) NULL,
-    [Costo]      FLOAT (53)   NULL,
-    [Descuento]  FLOAT (53)   NULL,
-    [SubTotal]   FLOAT (53)   NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+create table Empleados(
+EmpleadoId int identity(1, 1)not null primary key,
+Nombres   varchar(150),
+Provincia varchar(100),
+Ciudad    varchar(100),
+Direccion varchar(300),
+Cedula  varchar(25) ,
+Telefono varchar(15) ,
+FechaNac datetime,
+SueldoFijo decimal
 );
 
-CREATE TABLE [dbo].[Facturas] (
-    [FacturaId] INT          IDENTITY (1, 1) NOT NULL,
-    [ClienteId] INT          NULL,
-    [Fecha]     DATETIME     NULL,
-    [Total]     DECIMAL (18) NULL,
-    PRIMARY KEY CLUSTERED ([FacturaId] ASC),
-    FOREIGN KEY ([ClienteId]) REFERENCES [dbo].[Clientes] ([ClienteId])
+create table DetalleCitas(
+Id  int identity(1,1)not null primary key,
+CitaId int,
+Servicio varchar(25),
+ClienteId int ,
+Nombres varchar(50),
+Costo float(53)  
 );
 
-CREATE TABLE [dbo].[Servicios] (
-    [ServicioId] INT           IDENTITY (1, 1) NOT NULL,
-    [Nombre]     VARCHAR (100) NULL,
-    [Costo]      DECIMAL (18)  NULL,
-    PRIMARY KEY CLUSTERED ([ServicioId] ASC)
+create table FacturaDetalles(
+Id int identity(1,1)not null primary key,
+FacturaId int ,
+ServicioId varchar(25),
+Costo      float(53),
+Descuento  float(53),
+SubTotal  float(53)  
+);
+create table DetalleCitas(
+Id int identity(1,1) not null primary key,
+CitaId int foreign key references Citas,
+Nombres varchar(300),
+ClienteId int,
+Servicio varchar(100),
+Costo float
+);
+
+create table Facturas (
+FacturaId int identity(1,1)not null primary key,
+ClienteId int foreign key references Clientes,
+Fecha datetime ,
+Total decimal(18),
+);
+
+create table Servicios(
+ServicioId int identity(1,1)not null primary key,
+Nombre varchar(100),
+Costo decimal(18) ,
 );
 
