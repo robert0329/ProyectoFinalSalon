@@ -29,7 +29,7 @@
             <label>Servicios</label>
             <div class="input-group">
                 
-                <select class="form-control selected" id="ComboBox" onchange="CargarServicios()"placeholder="Servicios"></select>
+                <select class="form-control selected" id="ComboBox" onchange="Seleccionar()"placeholder="Servicios"></select>
 
                 <input class="form-control input-group-sm col-2" type="text" id="tbCosto" readonly placeholder="Costo" />
 
@@ -75,6 +75,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 CargarClientes();
+                CargarServicios();
             })
             var cos = 0;
             function CrearDetalle(FacturaId) {
@@ -212,15 +213,15 @@
             function CargarServicios() {
                 $.getJSON("/Servicios/Lista",
                     {
-                        id: Id
+                        id: 1
                     },
                     function (lista) {
+                        var p = JSON.stringify(lista)
                         $.each(lista, function (index, lista) {
                             var Id = lista.ServicioId;
-                            var ser = lista.costo;
-                            var cli = lista.nombres;
-                            var option = "<option id='" + Id + "'value='" + cos + "'>" + ser + "</option>";
-
+                            var Costo = lista.costo;
+                            var Nombre = lista.nombre;
+                            var option = "<option id='" + Id + "'value='" + Costo + "'>" + Nombre + "</option>";
                             $('#ComboBox').append(option);
                         });
                     });

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 
 namespace BeautyCenterCore.Controllers
 {
@@ -71,39 +70,6 @@ namespace BeautyCenterCore.Controllers
                 }
             }
             return View(model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteApplicationRole(string id)
-        {
-            string name = string.Empty;
-            if (!String.IsNullOrEmpty(id))
-            {
-                ApplicationRole applicationRole = await roleManager.FindByIdAsync(id);
-                if (applicationRole != null)
-                {
-                    name = applicationRole.Name;
-                }
-            }
-            return PartialView("_DeleteApplicationRole", name);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteApplicationRole(string id, FormCollection form)
-        {
-            if (!String.IsNullOrEmpty(id))
-            {
-                ApplicationRole applicationRole = await roleManager.FindByIdAsync(id);
-                if (applicationRole != null)
-                {
-                    IdentityResult roleRuslt = roleManager.DeleteAsync(applicationRole).Result;
-                    if (roleRuslt.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                }
-            }
-            return View();
         }
     }
 }

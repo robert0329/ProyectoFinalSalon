@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using static BeautyCenterCore.Models.BeautyCoreDb;
 
 namespace BeautyCenterCore
 {
@@ -54,7 +55,6 @@ namespace BeautyCenterCore
             }
             app.UseIdentity();
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
