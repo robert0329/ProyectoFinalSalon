@@ -29,11 +29,13 @@ namespace BeautyCenterCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc();
-
             services.AddDbContext<BeautyCoreDb>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BeautyCoreDb")));
+             options.UseSqlServer(Configuration.GetConnectionString("BeautyCoreDb")));
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<BeautyCoreDb>()
+                .AddDefaultTokenProviders();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,20 +47,19 @@ namespace BeautyCenterCore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseIdentity();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Facturas}/{action=Index}/{id?}");
+                    template: "{controller=ApplicationRoles}/{action=Index}/{id?}");
             });
             //
         }
