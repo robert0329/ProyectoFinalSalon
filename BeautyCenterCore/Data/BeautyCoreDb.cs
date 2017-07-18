@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 
 namespace BeautyCenterCore.Models
 {
-    public class BeautyCoreDb : DbContext
+    public class BeautyCoreDb : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public BeautyCoreDb() : base()
         {
@@ -18,7 +20,7 @@ namespace BeautyCenterCore.Models
             optionsBuilder.UseSqlServer("Data Source=ROBERT\\SERVER;Initial Catalog=BeautyCenter;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
         }
-    
+        
 
         public DbSet<BeautyCenterCore.Models.Citas> Citas { get; set; }
 
@@ -33,5 +35,7 @@ namespace BeautyCenterCore.Models
         public DbSet<BeautyCenterCore.Models.Servicios> Servicios { get; set; }
 
         public DbSet<BeautyCenterCore.Models.Empleados> Empleados { get; set; }
+
+        public DbSet<BeautyCenterCore.Models.ApplicationRole> ApplicationRole { get; set; }
     }
 }

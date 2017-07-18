@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using BeautyCenterCore.Models;
+using static BeautyCenterCore.Models.BeautyCoreDb;
 
 namespace BeautyCenterCore
 {
@@ -29,11 +30,13 @@ namespace BeautyCenterCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc();
-
             services.AddDbContext<BeautyCoreDb>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BeautyCoreDb")));
+             options.UseSqlServer(Configuration.GetConnectionString("BeautyCoreDb")));
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<BeautyCoreDb>()
+                .AddDefaultTokenProviders();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,9 +54,8 @@ namespace BeautyCenterCore
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseIdentity();
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
